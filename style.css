@@ -1,0 +1,153 @@
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    color-scheme: dark;
+    font-family: "Nunito", sans-serif;
+    background: #0b0b0f;
+    color: #ffffff;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background:
+        radial-gradient(ellipse at 15% 15%, #7c2d122e, transparent 45%),
+        radial-gradient(ellipse at 85% 85%, #9f12392b, transparent 45%),
+        #0b0b0f;
+}
+
+.confirmation-card {
+    width: 100%;
+    max-width: 470px;
+    padding: 42px 32px;
+    text-align: center;
+    border: 1px solid #ffffff14;
+    border-radius: 28px;
+    background: #15151be8;
+    box-shadow: 0 24px 80px #00000070;
+    animation: appear 0.6s ease both;
+}
+
+.logo {
+    width: 54px;
+    height: 54px;
+    margin: 0 auto 30px;
+    display: grid;
+    place-items: center;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #ff8a00, #ff3d3d);
+    font-size: 32px;
+    font-weight: 900;
+    box-shadow: 0 8px 30px #ff572230;
+}
+
+.status-icon {
+    width: 84px;
+    height: 84px;
+    margin: 0 auto 24px;
+    display: grid;
+    place-items: center;
+    border: 1px solid #ff793326;
+    border-radius: 50%;
+    background: #ff6b1712;
+    font-size: 36px;
+}
+
+.eyebrow {
+    margin-bottom: 12px;
+    color: #ff9a52;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 3px;
+}
+
+h1 {
+    margin-bottom: 14px;
+    font-size: clamp(26px, 6vw, 34px);
+    font-weight: 900;
+    line-height: 1.2;
+    letter-spacing: -0.8px;
+}
+
+#message {
+    max-width: 340px;
+    margin: 0 auto;
+    color: #aaaab6;
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+.loader {
+    width: 34px;
+    height: 34px;
+    margin: 28px auto 0;
+    border: 3px solid #ffffff1c;
+    border-top-color: #ff7838;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 50px;
+    margin-top: 28px;
+    padding: 0 26px;
+    border-radius: 15px;
+    background: linear-gradient(135deg, #ff8a00, #ff4545);
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 900;
+    text-decoration: none;
+    transition: transform 0.2s, filter 0.2s;
+}
+
+.button:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+
+.hidden {
+    display: none !important;
+}
+
+.footer {
+    margin-top: 36px;
+    color: #656571;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 480px) {
+    .confirmation-card {
+        padding: 34px 22px;
+        border-radius: 24px;
+    }
+}

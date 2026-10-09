@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmación | FogoSM</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="confirmation-card">
+        <div class="logo">F</div>
+
+        <div class="status-icon" id="statusIcon">✉️</div>
+
+        <p class="eyebrow">FOGOSM ACCOUNT</p>
+
+        <h1 id="title">Confirmando tu cuenta...</h1>
+
+        <p id="message">
+            Estamos comprobando tu enlace de confirmación.
+            No cierres esta página todavía.
+        </p>
+
+        <div class="loader" id="loader"></div>
+
+        <a href="#" id="actionButton" class="button hidden">
+            Continuar
+        </a>
+
+        <p class="footer">FogoSM · Connect with your world.</p>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="confirmation.js"></script>
+</body>
+</html>
