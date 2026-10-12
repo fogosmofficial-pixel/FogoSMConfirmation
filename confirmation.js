@@ -95,13 +95,18 @@ async function confirmAccount() {
             throw new Error("MISSING_TOKEN");
         }
 
-        showResult(
-            "✅",
-            "¡Cuenta confirmada!",
-            "Tu correo se ha verificado correctamente.",
-            "Iniciar sesión",
-            "http://127.0.0.1:5500/login.html"
-        );
+  showResult(
+    "✅",
+    "¡Cuenta confirmada!",
+    "Tu correo se ha verificado correctamente. Redirigiendo a FogoSM...",
+    "Continuar",
+    "https://fogosmofficial-pixel.github.io/FogoSM/homepage.html"
+);
+
+setTimeout(() => {
+    window.location.href =
+        "https://fogosmofficial-pixel.github.io/FogoSM/homepage.html";
+}, 2000);
     } catch (error) {
         console.error("Confirmation error:", error);
 
