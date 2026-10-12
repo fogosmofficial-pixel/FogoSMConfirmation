@@ -1,3 +1,4 @@
+
 const SUPABASE_URL = "https://glomwjsfdamgjlhqgath.supabase.co";
 const SUPABASE_KEY = "sb_publishable__imIAViEF22J5UFz_uquWg_d9HpvGq9";
 
@@ -12,6 +13,14 @@ const statusIcon = document.getElementById("statusIcon");
 const loader = document.getElementById("loader");
 const actionButton = document.getElementById("actionButton");
 
+const HOMEPAGE_URL =
+    "https://fogosmofficial-pixel.github.io/FogoSM/homepage.html";
+
+const CONFIRMATION_URL =
+    "https://fogosmofficial-pixel.github.io/FogoSMConfirmation/";
+
+let redirectTimer;
+
 function showResult(icon, heading, description, buttonText, buttonUrl) {
     statusIcon.textContent = icon;
     title.textContent = heading;
@@ -25,12 +34,14 @@ function showResult(icon, heading, description, buttonText, buttonUrl) {
 }
 
 function showError(description) {
+    clearTimeout(redirectTimer);
+
     showResult(
         "⚠️",
         "No se pudo confirmar",
         description,
         "Volver a FogoSM",
-        "https://fogosmofficial-pixel.github.io/FogoSMConfirmation/"
+        CONFIRMATION_URL
     );
 }
 
@@ -47,7 +58,8 @@ async function confirmAccount() {
 
         if (errorDescription) {
             showError(
-                "El enlace ha caducado o no es válido. Cuando puedas, solicita un nuevo correo de confirmación."
+                "El enlace ha caducado o no es válido. " +
+                "Solicita un nuevo correo de confirmación cuando puedas."
             );
             return;
         }
@@ -57,35 +69,40 @@ async function confirmAccount() {
         const accessToken = hashParams.get("access_token");
         const refreshToken = hashParams.get("refresh_token");
 
-        if (tokenHash && (type === "signup" || type === "email")) {
-            const result = await Promise.race([
+        let result;
+
+        if (
+            tokenHash &&
+            (type === "signup" || type === "email")
+        ) {
+            result = await Promise.race([
                 supabaseClient.auth.verifyOtp({
                     token_hash: tokenHash,
                     type: type
                 }),
-                new Promise((_, reject) =>
+                new Promise((_, reject) => {
                     setTimeout(
                         () => reject(new Error("TIMEOUT")),
                         15000
-                    )
-                )
+                    );
+                })
             ]);
 
             if (result.error) {
                 throw result.error;
             }
         } else if (accessToken && refreshToken) {
-            const result = await Promise.race([
+            result = await Promise.race([
                 supabaseClient.auth.setSession({
                     access_token: accessToken,
                     refresh_token: refreshToken
                 }),
-                new Promise((_, reject) =>
+                new Promise((_, reject) => {
                     setTimeout(
                         () => reject(new Error("TIMEOUT")),
                         15000
-                    )
-                )
+                    );
+                })
             ]);
 
             if (result.error) {
@@ -95,32 +112,36 @@ async function confirmAccount() {
             throw new Error("MISSING_TOKEN");
         }
 
-  showResult(
-    "✅",
-    "¡Cuenta confirmada!",
-    "Tu correo se ha verificado correctamente. Redirigiendo a FogoSM...",
-    "Continuar",
-    "https://fogosmofficial-pixel.github.io/FogoSM/homepage.html"
-);
+        showResult(
+            "✅",
+            "¡Cuenta confirmada!",
+            "Tu correo se ha verificado correctamente. " +
+            "Redirigiendo a FogoSM...",
+            "Continuar",
+            HOMEPAGE_URL
+        );
 
-setTimeout(() => {
-    window.location.href =
-        "https://fogosmofficial-pixel.github.io/FogoSM/homepage.html";
-}, 2000);
+        redirectTimer = setTimeout(() => {
+            window.location.replace(HOMEPAGE_URL);
+        }, 2000);
+
     } catch (error) {
         console.error("Confirmation error:", error);
 
         if (error.message === "TIMEOUT") {
             showError(
-                "La confirmación está tardando demasiado. Comprueba tu conexión e inténtalo más tarde."
+                "La confirmación está tardando demasiado. " +
+                "Comprueba tu conexión e inténtalo más tarde."
             );
         } else if (error.message === "MISSING_TOKEN") {
             showError(
-                "No se encontraron los datos de confirmación en el enlace. Puede haber caducado o haberse utilizado."
+                "No se encontraron los datos de confirmación. " +
+                "El enlace puede haber caducado o haberse utilizado."
             );
         } else {
             showError(
-                "No se pudo verificar el correo. El enlace puede haber caducado o haberse utilizado."
+                "No se pudo verificar el correo. " +
+                "El enlace puede haber caducado o haberse utilizado."
             );
         }
     }
